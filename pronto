@@ -1,0 +1,445 @@
+#include <iostream>
+#include <thread>
+#include <chrono>
+#include <locale.h>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    
+    string nome, evolucao, nomepok1;
+    int ataque, nomepok, caminho, dano, opcao, opcao2, opcao3, opcao4, vidainimigo = 110, vidapok = 100;
+    bool venceu = false;
+    setlocale (LC_ALL, "Portuguese");
+    srand (time(0));
+    
+    
+    cout<<"Bem-vindo ao mundo Pokémon! Um lugar repleto de aventuras, criaturas incríveis e desafios que irão testar sua coragem e determinação. Antes de começar sua jornada, \ndiga-me... qual é o seu nome, treinador? ";
+    cin >> nome;
+    cout<<"\nOlá, "<<nome<<"!"<<endl<<endl;
+    cout<< "O sol da manhã ilumina o laboratório enquanto você entra, com o coração acelerado e cheio de expectativas. À sua frente está o renomado Professor Alex, que observa" << endl << "você com um leve sorriso." <<endl;
+    cout<< "Professor Alex: ";
+    cout<<"Então, você finalmente chegou. Estava esperando por este momento. Todo grande treinador começa sua jornada com um parceiro Pokémon, hoje é o seu dia de escolher."<<endl;
+    cout<<"O treinador aponta para três Pokébolas sobre a mesa."<<endl;
+    cout<<"Dentro dessas Pokébolas, estão três Pokémon especiais. Cada um possui habilidades únicas. Escolha com sabedoria."<<endl;
+    cout<<"Escolha seu Pokémon (1,2 ou 3):  "<<endl<<endl;
+    poke1:
+    cout<<"1- Squirtle (Tipo Água) — Calmo e resistente, ótimo para batalhas estratégicas."<<endl<<"2- Charmander (Tipo Fogo) — Determinado e poderoso, ideal para ataques ofensivos."<<endl<<"3- Bulbasaur (Tipo Planta) — Equilibrado e inteligente, perfeito para controle de batalha."<<endl<<endl;
+    cout<<"Faça sua escolha: ";
+    cin>>nomepok;
+    if (cin.fail()){
+        cin.clear();
+        cin.ignore (1000,'\n');
+        cout<<"Digite apenas números!\n\n";
+        goto poke1;
+    }
+    
+    if (nomepok < 1 || nomepok > 3){
+        cout<<"Escolha as opções 1, 2 ou 3\n\n";
+        goto poke1;
+    }
+    
+    switch (nomepok) {
+        case 1:
+        cout<<"Ao abrir a Pokébola, um pequeno Squirtle surge, olhando curioso para você."<<endl<<endl;
+        nomepok1 = "Squirtle";
+        evolucao = "Wartortle";
+        cout<<"Uma excelente escolha! — diz Alex."<<endl<<endl;
+        break;
+        case 2: 
+        cout<<"A chama na cauda de Charmander dança suavemente enquanto ele aparece, demonstrando energia e coragem."<<endl<<endl;
+        evolucao = "Charmeleon";
+        nomepok1 = "Charmander";
+        cout<<"Vejo que prefere força e determinação! — comenta Alex."<<endl;
+        break;
+        case 3:
+        cout<<"Bulbasaur surge calmamente, observando tudo ao redor com atenção."<<endl<<endl;
+        evolucao = "Ivysaur";
+        nomepok1 = "Bulbasaur";
+        cout<<"Uma escolha sábia. Equilíbrio é a chave de muitas vitórias."<<endl;
+        break;
+        
+    }
+    cout << "Professor Alex: Agora que você tem seu primeiro Pokémon, é hora de começar sua jornada!" << endl;
+    cout << "Ele entrega alguns itens nas suas mãos." << endl;
+    cout << "Professor Alex: Esses itens irão ajudá-lo no início da sua caminhada. Use-os com sabedoria." << endl;
+    cout << "Você guarda os itens na mochila e sente o peso da aventura começando. " << endl;
+    cout << nome << ": Obrigado, Mestre" << endl;
+    cout << "Professor Alex: Seu primeiro desafio será no Ginásio de Brusque com o treinador Marcelo. Prepare-se, pois nem todos os caminhos serão fáceis. Mas acredito no seu potencial." << endl;
+    cout << "Você segue pela estrada, com seu Pokémon ao seu lado. De repente... seu primeiro desafio surge! Você chegou ao ginásio." << endl <<endl;
+    cout << nomepok1 << ", VAIII!!!";
+    while (vidainimigo > 0 and vidapok > 0) {
+        escolhaataque:
+        cout << "\n------------------------------------\n";
+        cout << "Seu Pokémon: " << vidapok << " HP\n";
+        cout << "Inimigo:     " << vidainimigo << " HP\n";
+        cout << "------------------------------------\n\n";
+        cout << "1 - Ataque rápido (chance de acerto crítico)" << endl;
+        cout << "2 - Ataque forte" << endl << endl;
+        cout << "Escolha a sua ação: ";
+        cin >> ataque;
+        if (cin.fail()){
+            cin.clear();
+            cin.ignore(1000,'\n');
+            cout<<"\nDigite apenas 1 ou 2!\n";
+            goto escolhaataque;
+        }
+        if (ataque < 1 || ataque > 2){
+            cout<< "\nEscolha apenas a opção 1 ou 2\n";
+            goto escolhaataque;
+        }
+        if (ataque == 1) {
+            dano = rand() % 11 + 10;
+            
+            if (rand() % 5 == 0) {
+                dano = dano * 2;
+                cout << "CRÍTICO!!!\n";
+            }
+
+            cout << nomepok1 << " usou ataque rápido!\n";
+
+        } else if (ataque == 2) {
+            dano = rand() % 16 + 20;
+            cout << nomepok1 << " usou ataque forte!\n";
+        }
+
+        vidainimigo = vidainimigo - dano;
+        cout << "Dano causado: " << dano << endl << endl;
+
+        if (vidainimigo <= 0) {
+            cout << "Você venceu!!\n";
+            venceu = true;
+            break;
+        }
+        
+        int danoInimigo = rand() % 11 + 18;
+
+        cout << "Inimigo atacou!\n";
+        vidapok = vidapok - danoInimigo;
+
+        cout << "Você recebeu: " << danoInimigo << " de dano\n";
+
+        if (vidapok <= 0) {
+            cout << "Você perdeu...\n";
+            venceu = false;
+            break;
+        }
+    }
+    
+    if (venceu == true){
+        cout << "Seu Pokémon permanece firme — mesmo cansado, ele venceu!" << endl << endl;
+        cout << "Marcelo: Parabéns, treinador " << nome << ". Luta impressionante, como reconhecimento da sua vitória, receba a insígnia de Brusque" << endl;
+        cout << "Ele entrega a sua primeira insígnia." << endl;
+        cout << nome << " usa a poção recebida de Alex e segue em frente, mais confiante." << endl;
+        cout << "Após essa dura jornada, é hora de treinar para seguir a sua aventura." << endl;
+        caminhovitoria:
+        cout << "Você poderá seguir pelo caminho iluminado, tranquilo e seguro (opção 1) ou optar pela floresta escura, silenciosa e misteriosa (opção 2)." << endl;
+        cout << "Qual será a sua escolha? ";
+        cin >> caminho;
+        
+        if (cin.fail()){
+        cin.clear();
+        cin.ignore(1000,'\n');
+        cout<<"\nDigite apenas 1 ou 2!\n";
+        goto caminhovitoria;
+        }
+        if (caminho < 1 || caminho > 2){
+        cout<< "\nEscolha apenas a opção 1 ou 2\n";
+        goto caminhovitoria;
+        }
+        
+        switch (caminho){
+            case 1:
+            cout << "\nO sol ilumina a estrada e a brisa é leve." << endl; 
+            cout << "Após alguns minutos, você encontra um treinador. " << endl;
+            cout << "Lia: Oi você parece forte, que tal uma batalha amigável? " << endl;
+            cout << "Durante a batalha você nota que Lia possui um pokémon de um elemento mais fraco que o seu." << endl;
+            cout << "Após alguns ataques, a batalha é sua." << endl;
+            cout << "Lia: Uau... você tem um Pokémon incrível."<< endl;
+            cout << nome <<": Obrigado!"<<endl;
+            cout << nome <<": Nossa, O QUE É ISSO?"<<endl;
+            cout <<"Eis então que você nota que o seu pokémon começa a brilhar."<<endl;
+            cout <<"Uma luz intensa envolve o seu companheiro!"<<endl;
+            cout <<"E então - "<<endl;
+            cout << "Seu pokémon evoluiu para "<<evolucao<<"!"<<endl;
+            cout << "Lia: Parabéns, "<< nome <<"! Esse pokémon é muito forte e irá ajudar muito na sua jornada!"<<endl;
+            cout << "Agora, com o seu companheiro mais forte vocês seguem o caminho com tranquilidade a caminho de novas aventuras."<<endl;
+            cout << "O caminho é longo, mas tranquilo. " << endl;
+            cout << "A paisagem começa a mudar lentamente." << endl;
+            cout << "Pequenos arbustos  aparecem ao redor da estrada, e você consegue ouvir o som dos Pokémons nas árvores." << endl;
+            cout << "Quando de repente-" << endl;
+            cout << nome << ": Nossa, o que é isso?" << endl;
+            cout << "Um pequeno pokémon pousa à sua frente." << endl;
+            cout << "É um Pidgey!" << endl;
+            cout << "O que você deseja fazer?" << endl << endl;
+            opcaocaminho:
+            cout << "1 - Capturar o Pokémon" << endl << "2 - Ignorar e seguir o caminho" << endl << endl;
+            cout << "Qual a sua escolha? ";
+            cin >> opcao2;
+            
+            if (cin.fail()){
+            cin.clear();
+            cin.ignore(1000,'\n');
+            cout<<"\nDigite apenas 1 ou 2!\n";
+            goto opcaocaminho;
+            }
+            if (opcao2 < 1 || opcao2 > 2){
+            cout<< "\nEscolha apenas a opção 1 ou 2\n";
+            goto opcaocaminho;
+            }
+            if (opcao2 == 1){
+                cout << nome << ": pokebola, VAIII!" << endl;
+                cout << "1..."<<endl;
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "2..."<<endl;
+                this_thread::sleep_for(chrono::seconds(2));
+                cout << "3..."<<endl;
+                this_thread::sleep_for(chrono::seconds(3));
+                cout << "Você capturou o Pidgey!" << endl;
+                cout << nome << ": Que maravilha, agora possuímos mais um companheiro para a nossa jornada" << endl;
+                cout << "Seu novo companheiro bate as asas, olhando para você com entusiasmo" << endl;
+                cout << "Você guarda a Pokébola na sua mochila, sentindo que a sua equipe está cada vez mais forte e segue em direção a novas aventuras" << endl << endl;
+                }
+            else if (opcao2 == 2){
+                cout << "\n" << nome << ": Melhor não...preciso seguir em frente" << endl;
+                cout << "Você observa o Pidgey por alguns instantes, mas decide não capturá-lo." << endl;
+                cout << "Você continua a sua jornada pela estrada" << endl;
+                cout << nome << ": Talvez eu pudesse ter capturado... mas ainda terei outras oportunidades." << endl;
+                cout << "Seu Pokémon caminha ao seu lado, firme e confiante" << endl;
+                cout << "Você respira fundo e olha para o horizonte." << endl;
+                cout << nome << ": Minha jornada não depende de um único Pokémon...vou me tornar forte do meu jeito" << endl;
+                cout << "Com determinação, você segue em frente rumo a novos desafios" << endl;
+            }
+            break;
+            
+            case 2:
+            cout<<"O sol é ocultado pelas altas copas da floresta."<<endl;
+            cout<<"Após alguns minutos, você encontra um treinador."<<endl;
+            cout<<"Lia: Oi você parece forte, que tal uma batalha amigável?"<<endl;
+            cout<<"Durante a batalha, você nota que a LIA possui um Pokémon de um elemento que é mais fraco que o seu."<<endl;
+            cout<<"Após alguns ataques, a vitória é sua."<<endl;
+            cout<<"Lia: Uau... você tem um Pokémon incrível."<<endl;
+            cout<<nome<<": Obrigado!"<<endl;
+            cout<<nome<<": Nossa, O QUE É ISSO?"<<endl;
+            cout<<"Eis então que você nota que o seu pokémon começa a brilhar."<<endl;
+            cout<<"Uma luz intensa envolve o seu companheiro!"<<endl;
+            cout<<"E então - "<<endl;
+            cout<<"Seu pokémon evoluiu!"<<endl;
+            cout<<"Seu pokémon evoluiu para "<<evolucao<<"!"<<endl;
+            cout<<"Lia: Parabéns, "<<nome<<"! Esse pokémon é muito forte e irá ajudar muito na sua jornada!"<<endl;
+            cout<<"Agora, com o seu companheiro mais forte vocês seguem o caminho com tranquilidade a caminho de novas aventuras."<<endl;
+            cout<<"O caminho é longo e tempestuoso."<<endl;
+            cout<<"A paisagem começa a mudar lentamente."<<endl;
+            cout<<"Pequenos arbustos  aparecem ao redor da estrada, e você consegue ouvir o som dos Pokémons nas árvores." << endl;
+            cout<<"Quando de repente-" << endl;
+            cout<< nome << ": Nossa o que é isso?" <<endl;
+            cout<<"Um pequeno Pokémon pousa a sua frente." <<endl;
+            cout<<"É um Zubat!" << endl;
+            caminhoopcao:
+            cout<<"O que você deseja fazer?" <<endl<<endl;
+            cout<<"1- Capturar o Pokémon"<<endl<<"2- Ignorar e seguir o caminho"<<endl<<endl;
+            cout<<"Qual a sua escolha? ";
+            cin >> opcao3;
+            
+            if (cin.fail()){
+            cin.clear();
+            cin.ignore(1000,'\n');
+            cout<<"\nDigite apenas 1 ou 2!\n";
+            goto caminhoopcao;
+            }
+            if (opcao3 < 1 || opcao3 > 2){
+            cout<< "\nEscolha apenas a opção 1 ou 2\n";
+            goto caminhoopcao;
+            }
+            
+            if (opcao3 == 1){
+                cout << nome << ": pokebola, VAIII!" << endl;
+                cout << "1..."<<endl;
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "2..."<<endl;
+                this_thread::sleep_for(chrono::seconds(2));
+                cout << "3..."<<endl;
+                this_thread::sleep_for(chrono::seconds(3));
+                cout << "Você capturou o Zubat!" << endl;
+                cout << nome << ": \nQue maravilha, agora possuímos mais um companheiro para a nossa jornada" << endl;
+                cout << "Seu novo companheiro bate as asas, olhando para você com entusiasmo" << endl;
+                cout << "Você guarda a Pokébola na sua mochila, sentindo que a sua equipe está cada vez mais forte e segue em direção a novas aventuras" << endl << endl;
+                }
+            else if (opcao3 == 2){
+                cout << nome << ": Melhor não...preciso seguir em frente" << endl;
+                cout << "Você observa o Zubat por alguns instantes, mas decide não capturá-lo." << endl;
+                cout << "Você continua a sua jornada pela estrada" << endl;
+                cout << nome << ": Talvez eu pudesse ter capturado... mas ainda terei outras oportunidades." << endl;
+                cout << "Seu Pokémon caminha ao seu lado, firme e confiante" << endl;
+                cout << "Você respira fundo e olha para o horizonte." << endl;
+                cout << nome << ": Minha jornada não depende de um único Pokémon...vou me tornar forte do meu jeito" << endl;
+                cout << "Com determinação, você segue em frente rumo a novos desafios" << endl;
+            }
+        
+        
+    }   } else if (venceu == false){
+        cout << "Seu Pokémon cai exausto... você corre até o Centro Pokémon de Itajaí."<<endl;
+        cout << "Após o tratamento, você percebe que ainda precisa treinar mais antes de seguir."<<endl;
+        cout << "Ao final dos cuidados com o seu pokémon, é hora do treinador continuar a sua aventura."<<endl;
+        opcaoderrota:
+        cout << "Você deseja seguir pelo caminho da floresta (opção 1) ou ir em direção a Praia (opção 2)?"<<endl;
+        cout << "Qual será a sua escolha? ";
+        cin >> opcao4;
+        if (cin.fail()){
+            cin.clear();
+            cin.ignore(1000,'\n');
+            cout<<"\n\nDigite apenas 1 ou 2!";
+            goto opcaoderrota;
+        }
+        if (opcao4 < 1 || opcao4 > 2){
+            cout<<"\n\nDigite apenas 1 ou 2!";
+            goto opcaoderrota;
+        }
+        if (opcao4 == 1){
+            cout << "Após alguns minutos de caminhada, você chegou ao seu destino e se encontrou com o treinador Pedro que lhe apresentará melhor o lugar." << endl;
+            cout << "Pedro: Você é o " << nome << ", né? Vou te apresentar um local repleto de Pokémons para aprimorar suas habilidades" << endl;
+            cout << "A alguns metros dali ficavam alguns Pokémons selvagens." << endl;
+            cout << "Pedro: Ali é um ótimo lugar para treinar!" << endl;
+            cout << "Você chega ao local e um Pokémon selvagem aparece." << endl;
+            cout << nome << ": Vou capturar essa Eevee para me auxiliar nessas batalhas." << endl;
+            cout << nome << ": pokebola, VAI!"<<endl;
+            cout << "\n1..."<<endl;
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "2..."<<endl;
+            this_thread::sleep_for(chrono::seconds(2));
+            cout << "3..."<< endl << endl;
+            this_thread::sleep_for(chrono::seconds(3));
+            cout << "Você capturou!" <<endl;
+            cout << "Parabéns, você conseguiu capturar um ótimo Pokémon, vou te entrega uma pedra de evolução que vai te ajudar na sua jornada!" << endl;
+            cout << "Após conquistar a sua mais nova Eevee, você segue pela floresta para encontrar novos destinos." << endl;
+            cout << "Durante a caminhada, você nota alguma atividade estranha nos arbustos." << endl;
+            cout << "Isso mesmo, daquele arbusto surge a equipe foguete, que te desafia para uma batalha." << endl;
+            cout << "Mas agora com a sua equipe mais forte, você aceita o desafio e os enfrenta." << endl;
+            cout << "Escutando o barulho na floresta, Pedro se aproxima e se depara com a batalha entre você e a equipe foguete." << endl;
+            cout << nome << ": " << nomepok1 << ", VAII!";
+            vidainimigo = 100;
+            vidapok = 100;
+            while (vidainimigo > 0 and vidapok > 0) {
+            ultimabatalha:
+            cout << "\n------------------------------------\n";
+            cout << "Seu Pokémon: " << vidapok << " HP\n";
+            cout << "Inimigo:     " << vidainimigo << " HP\n";
+            cout << "------------------------------------\n\n";
+            cout << "1 - Ataque rápido (chance de acerto crítico)" << endl;
+            cout << "2 - Ataque forte" << endl << endl;
+            cout << "Escolha a sua ação: ";
+            cin >> ataque;
+            
+            if (cin.fail()){
+            cin.clear();
+            cin.ignore(1000,'\n');
+            cout<<"Digite apenas 1 ou 2!";
+            goto ultimabatalha;
+            }
+            if (ataque < 1 || ataque > 2){
+            cout<<"Digite apenas 1 ou 2!";
+            goto ultimabatalha;
+            }
+            
+                if (ataque == 1) {
+                dano = rand() % 11 + 10;
+            
+                if (rand() % 5 == 0) {
+                dano = dano * 2;
+                cout << "CRÍTICO!!!\n";
+                }
+
+                cout << nomepok1 << " usou ataque rápido!\n";
+
+                } else if (ataque == 2) {
+                dano = rand() % 16 + 20;
+                cout << nomepok1 << " usou ataque forte!\n";
+                }
+
+                vidainimigo = vidainimigo - dano;
+                cout << "Dano causado: " << dano << endl << endl;
+
+                if (vidainimigo <= 0) {
+                cout << "Você venceu!!\n";
+                venceu = true;
+                break;
+                }
+        
+                int danoInimigo = rand() % 11 + 18;
+
+                cout << "Inimigo atacou!\n";
+                vidapok = vidapok - danoInimigo;
+
+                cout << "Você recebeu: " << danoInimigo << " de dano\n";
+
+                if (vidapok <= 0) {
+                cout << "Você perdeu...\n";
+                venceu = false;
+                
+                break;
+            }
+            }
+                if (venceu == true){
+                    cout << "A equipe Foguete recua, claramente derrotada."<< endl;
+                    cout << "Equipe Foguete: Droga! Esse treinador é mais forte do que pensávamos." <<endl;
+                    cout << "Eles fogem rapidamente pela floresta."<<endl;
+                    cout << "Pedro se aproxima, impressionado." << endl;
+                    cout << "Incrível, " << nome << "! Você lutou muito bem!"<<endl;
+                    cout << "Ele pega uma poção em sua mochila."<<endl;
+                    cout << "Pedro: Aqui, use isso para curar seus Pokémons." <<endl;
+                    cout << "Seus Pokémons são curados."<<endl;
+                    cout << nome << ": Obrigado, Pedro. Vou continuar ficando mais forte." << endl;
+                    cout << "Com sua equipe mais poderosa, você segue pela floresta, pronto para enfrentar novos desafios."<<endl;
+                    cout << "Sua jornada está apenas começando..." <<endl;
+                }                    
+                else if (venceu == false){
+                    cout << "Seus Pokémons caem exaustos após a batalha." <<endl;
+                    cout << nome << ": Não...Eu perdi..."<<endl;
+                    cout << "A Equipe Foguete ri antes de desaparecer na floresta." << endl;
+                    cout << "Equipe Foguete: Volte quando tiver mais forte!"<<endl;
+                    cout << "Pedro corre até você."<<endl;
+                    cout << "Pedro: Vá até o centro Pokémon em Itajaí, recupere seus Pokémons e treine mais. Você ainda pode ser um grande treinador."<<endl;
+                    cout << "Mesmo derrotado, você sente que essa é apenas uma etapa dessa jornada. "<<endl;
+                    cout << nome << ": Eu vou voltar mais forte...eu prometo!"<<endl;
+                    cout << "E assim, você retorna determinado a continuar sua aventura"<<endl;
+                }
+        } else if (opcao4 == 2){
+            cout << "Após alguns minutos de caminhada, " << nome << " chega ao seu destino e se encontra rapidamente com o treinador João que lhe apresentará melhor o lugar."<<endl;
+            cout << "João: Você é o " << nome << ", né? Vou te apresentar um local repleto de Pokémons para você aprimorar suas habilidades."<<endl;
+            cout << "A alguns metros dali ficavam alguns Pokémons selvangens."<<endl;
+            cout << "João: Ali é um ótimo lugar para treinar."<<endl;
+            cout << nome << " chega ao local e um Pokémon selvagem aparece."<<endl;
+            cout << nome << ": Vou capturar esse Mudkip para me auxiliar nas batalhas."<<endl;
+            cout << nome << ": pokebola, VAII!"<<endl;
+            cout << "\n1..."<<endl;
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "2..."<<endl;
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "3..."<< endl << endl;
+            this_thread::sleep_for(chrono::seconds(1));
+            cout<<"Você capturou!"<<endl;
+            cout<< "João: Parabéns, " << nome << " você conseguiu capturar um ótimo pokémon!"<<endl;
+            cout<< nome << ": Obrigado, agora vou seguir minha jornada."<<endl;
+            cout<< "João: Boa sorte, treinador!"<<endl;
+            cout<< "Você segue pela trilha ao lado do seu Mudkip, animado com sua nova conquista. O som das ondas vai ficando distante enquanto a estrada leva você a um novo caminho."<<endl;
+            cout<< "De repente, um treinador aparece em sua frente"<<endl;
+            cout<< "Treinador: Ei, vamos batalhar!"<<endl;
+            cout<< nome << ": Vamos la, Mudkip"<<endl;
+            cout<<"Após uma batalha rápida, você vence!"<<endl;
+            cout<< "Treinador: Você é forte, continue assim!"<<endl;
+            cout<<"Você segue em frente, mais confiante."<<endl;
+            cout<< nome << ": essa é só a primeira de muitas vitórias!"<<endl;
+            cout<<"Com seu Mudkip ao seu lado, você continua em busca de novos desafios e aventuras.";
+            
+        }    
+        
+                
+        }
+        
+         
+        
+    return 0;
+
+}
